@@ -1,0 +1,39 @@
+name: Ubuntu Workflow
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 0 * * *'  # Run daily at midnight
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: System Information
+      run: |
+        echo "=== Ubuntu System Info ==="
+        uname -a
+        lsb_release -a
+        echo ""
+        echo "=== CPU Info ==="
+        nproc
+        echo ""
+        echo "=== Memory Info ==="
+        free -h
+    
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl wget git
+    
+    - name: Run Tests
+      run: |
+        echo "Hello from Ubuntu!"
+        echo "Workflow completed successfully"
+        date
